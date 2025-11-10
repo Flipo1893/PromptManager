@@ -50,10 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const listSection = document.getElementById("section-list");
   const form = document.getElementById("promptForm");
   const promptsList = document.getElementById("promptsList");
-  const filterInfo = document.getElementById("filterInfo");
-  const clearFilterBtn = document.getElementById("clearFilter");
 
-  // === Hamburger Menü ===
+  // === Hamburger Menu ===
   hamburgerBtn.addEventListener("click", e => {
     e.stopPropagation();
     hamburgerBtn.classList.toggle("active");
@@ -67,11 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // === Menüpunkt: Neuer Prompt ===
+  // === Menüpunkt "Neuer Prompt" ===
   document.querySelectorAll('.menu-item[data-section="create"]').forEach(item => {
     item.addEventListener("click", () => {
-      listSection.classList.remove("active");
-      createSection.classList.add("active");
+      listSection.classList.add("hidden");
+      createSection.classList.remove("hidden");
       hamburgerBtn.classList.remove("active");
       menuDropdown.classList.remove("active");
     });
@@ -81,18 +79,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".menu-item[data-ai]").forEach(item => {
     item.addEventListener("click", () => {
       manager.currentFilter = item.dataset.ai;
-      createSection.classList.remove("active");
-      listSection.classList.add("active");
+      createSection.classList.add("hidden");
+      listSection.classList.remove("hidden");
       hamburgerBtn.classList.remove("active");
       menuDropdown.classList.remove("active");
       render();
     });
-  });
-
-  // === Filter entfernen ===
-  clearFilterBtn.addEventListener("click", () => {
-    manager.currentFilter = "all";
-    render();
   });
 
   // === Prompt Formular ===
@@ -106,62 +98,87 @@ document.addEventListener("DOMContentLoaded", () => {
     manager.add(new Prompt(title, cat, text, ai));
     form.reset();
     updateCounts();
-    alert("✅ Prompt gespeichert!");
+    renderSuccessFlash();
   });
 
-  // === Rendern ===
+  function renderSuccessFlash() {
+    const card = document.querySelector(".prompt-card");
+    card.classList.add("flash-success");
+    setTimeout(() => card.classList.remove("flash-success"), 500);
+  }
+
+  // === Render Prompts ===
   function render() {
     const list = manager.getFiltered();
-    filterInfo.style.display = manager.currentFilter === "all" ? "none" : "flex";
-    document.getElementById("filterName").textContent = manager.currentFilter;
+    promptsList.innerHTML = "";
 
-    promptsList.innerHTML =
-      list.length === 0
-        ? `<p style="text-align:center;color:#64748b;">Keine Prompts gefunden.</p>`
-        : list
-            .map(
-              p => `
-        <div class="prompt-item">
-          <div>
-            <div class="prompt-title">${p.title}</div>
-            <div class="prompt-meta">${p.aiModel} | ${p.category}</div>
-            <div class="prompt-text">${p.text}</div>
+    if (list.length === 0) {
+      promptsList.innerHTML = `<p style="text-align:center;color:#64748b;">Keine Prompts gefunden.</p>`;
+    } else {
+      list.forEach(p => {
+        const item = document.createElement("div");
+        item.classList.add("prompt-item");
+        item.innerHTML = `
+          <div class="prompt-header">
+            <div>
+              <div class="prompt-title">${p.title}</div>
+              <div class="prompt-meta">${p.aiModel} | ${p.category}</div>
+            </div>
+            <div class="prompt-actions">
+              <button class="btn-copy" onclick="copyPrompt('${encodeURIComponent(p.text)}', event)">Kopieren</button>
+              <button class="btn-delete" onclick="deletePrompt(${p.id}, event)">Löschen</button>
+            </div>
           </div>
-          <div class="prompt-actions">
-            <button class="btn-copy" onclick="copyPrompt('${encodeURIComponent(
-              p.text
-            )}')">Kopieren</button>
-            <button class="btn-delete" onclick="deletePrompt(${p.id})">Löschen</button>
-          </div>
-        </div>`
-            )
-            .join("");
-
+          <div class="prompt-text">${p.text}</div>
+        `;
+        promptsList.appendChild(item);
+      });
+    }
     updateCounts();
   }
 
-  // === Prompt löschen ===
-  window.deletePrompt = function (id) {
-    manager.delete(id);
-    render();
-  };
-
-  // === Prompt kopieren ===
-  window.copyPrompt = function (text) {
+  // === Copy Button Feedback ===
+  window.copyPrompt = function (text, event) {
     const decoded = decodeURIComponent(text);
     navigator.clipboard.writeText(decoded);
-    alert("📋 Prompttext kopiert!");
+
+    const btn = event.target;
+    const original = btn.textContent;
+    btn.textContent = "Kopiert!";
+    btn.style.background = "#10b93aff";
+    btn.style.borderColor = "#09a740ff";
+    btn.style.color = "white";
+
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.style.background = "";
+      btn.style.borderColor = "#3b82f6";
+      btn.style.color = "#3b82f6";
+    }, 1000);
   };
 
-  // === Zähler aktualisieren ===
+  // === Delete Animation ===
+  window.deletePrompt = function (id, event) {
+    const element = event.target.closest(".prompt-item");
+    if (element) {
+      element.classList.add("fade-out");
+      setTimeout(() => {
+        manager.delete(id);
+        render();
+      }, 250);
+    } else {
+      manager.delete(id);
+      render();
+    }
+  };
+
+  // === Update Counts ===
   function updateCounts() {
-    ["all", "ChatGPT", "Claude.AI", "DeepSeek", "Perplexity", "Gemini"].forEach(ai => {
+    ["ChatGPT", "Claude.AI", "DeepSeek", "Perplexity", "Gemini"].forEach(ai => {
       const el = document.getElementById(`count${ai.replace(".", "")}`);
       if (el) el.textContent = manager.count(ai);
     });
   }
 
   updateCounts();
-  render();
-  createSection.classList.add("active");
 });
