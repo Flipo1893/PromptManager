@@ -7,108 +7,112 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     /* --- CHAT LAYOUT --- */
-    .chat-container {
-      max-width: 1100px;
-      margin: 100px auto;
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 16px;
-      padding: 40px;
-      height: 75vh;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-      position: relative;
-      overflow: hidden;
-    }
+.chat-container {
+  width: 90vw;                    /* Nimmt 90% der Bildschirmbreite */
+  height: 80vh;                   /* Nimmt 80% der Bildschirmhöhe */
+  margin: 40px auto;              /* Etwas Abstand oben/unten */
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
 
-    .chat-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding-right: 10px;
-      margin-bottom: 20px;
-    }
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-bottom: 20px;
+  max-height: 100%;               /* Scrollbar nur bei Bedarf */
+}
 
-    .message {
-      padding: 14px 18px;
-      margin: 10px 0;
-      border-radius: 14px;
-      line-height: 1.5;
-      max-width: 80%;
-      word-wrap: break-word;
-      animation: fadeIn 0.3s ease forwards;
-    }
+.message {
+  padding: 14px 18px;
+  margin: 10px 0;
+  border-radius: 14px;
+  line-height: 1.5;
+  max-width: 85%;                 /* Nachrichten dürfen breiter sein */
+  word-wrap: break-word;
+  animation: fadeIn 0.3s ease forwards;
+}
 
-    .message.user {
-      background: #2563eb;
-      color: #fff;
-      align-self: flex-end;
-    }
+.message.user {
+  background: #2563eb;
+  color: #fff;
+  align-self: flex-end;
+}
 
-    .message.bot {
-      background: #334155;
-      color: #e2e8f0;
-      align-self: flex-start;
-    }
+.message.bot {
+  background: #334155;
+  color: #e2e8f0;
+  align-self: flex-start;
+}
 
-    .chat-input {
-      display: flex;
-      gap: 10px;
-    }
+.chat-input {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
 
-    #userInput {
-      flex: 1;
-      padding: 14px;
-      border-radius: 8px;
-      border: 1px solid #334155;
-      background: #0f172a;
-      color: #e2e8f0;
-    }
+#userInput {
+  flex: 1;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-size: 1rem;
+}
 
-    #sendBtn {
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 14px 24px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
+#sendBtn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
 
-    #sendBtn:hover {
-      background: #1d4ed8;
-    }
+#sendBtn:hover {
+  background: #1d4ed8;
+}
 
-    /* --- Begrüßungstext / Intro --- */
-    .welcome-message {
-      text-align: center;
-      color: #e2e8f0;
-      font-size: 1.3rem;
-      font-weight: 500;
-      margin-bottom: 20px;
-      animation: fadeIn 1.5s ease-in-out;
-      opacity: 0.9;
-    }
+/* --- Begrüßungstext / Intro --- */
+.welcome-message {
+  text-align: center;
+  color: #e2e8f0;
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+  animation: fadeIn 1.5s ease-in-out;
+  opacity: 0.9;
+}
 
-    .welcome-message span {
-      color: #60a5fa;
-      font-weight: 600;
-    }
+.welcome-message span {
+  color: #60a5fa;
+  font-weight: 600;
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    /* --- Tipp-Text unten --- */
-    .hint-text {
-      text-align: center;
-      color: #94a3b8;
-      font-size: 0.9rem;
-      margin-top: 8px;
-      animation: fadeIn 2s ease-in-out;
-    }
+/* --- Tipp-Text unten --- */
+.hint-text {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.95rem;
+  margin-top: 8px;
+  animation: fadeIn 2s ease-in-out;
+}
+
   </style>
 </head>
 <body>
