@@ -18,6 +18,8 @@
       display: flex;
       flex-direction: column;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
     }
 
     .chat-messages {
@@ -78,9 +80,34 @@
       background: #1d4ed8;
     }
 
+    /* --- Begrüßungstext / Intro --- */
+    .welcome-message {
+      text-align: center;
+      color: #e2e8f0;
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      animation: fadeIn 1.5s ease-in-out;
+      opacity: 0.9;
+    }
+
+    .welcome-message span {
+      color: #60a5fa;
+      font-weight: 600;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- Tipp-Text unten --- */
+    .hint-text {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      animation: fadeIn 2s ease-in-out;
     }
   </style>
 </head>
@@ -119,11 +146,21 @@
 
   <main>
     <div class="chat-container">
+      <div class="welcome-message">
+        👋 <span>Hallo!</span><br>
+        Welchen Prompt darf ich dir heute erstellen?
+      </div>
+
       <div id="chatMessages" class="chat-messages"></div>
+
       <div class="chat-input">
         <input type="text" id="userInput" placeholder="Schreib etwas..." />
         <button id="sendBtn">Senden</button>
       </div>
+
+      <p class="hint-text">
+        💡 Tipp: Du kannst mich z. B. fragen „Erstelle mir einen Prompt für einen Blogartikel über KI in Schulen.“
+      </p>
     </div>
   </main>
 
@@ -149,13 +186,18 @@
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
+    // Beim Laden Begrüßungsnachricht als "bot"
+    window.addEventListener("load", () => {
+      addMessage("👋 Hallo! Ich bin dein Prompt-Assistent. Wie kann ich dir heute helfen?", "bot");
+    });
+
     sendBtn.addEventListener("click", async () => {
       const text = userInput.value.trim();
       if (!text) return;
       addMessage(text, "user");
       userInput.value = "";
 
-      addMessage("⏳ Generiere Antwort...", "bot");
+      addMessage("Generiere Antwort...", "bot");
 
       try {
         const response = await fetch("http://127.0.0.1:5000/api/chat", {
