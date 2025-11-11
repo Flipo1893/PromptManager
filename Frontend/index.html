@@ -16,12 +16,17 @@
 
       <div id="menuDropdown" class="menu-dropdown">
         <div class="menu-label">Bereiche</div>
+        <div class="menu-item">
+    <a href="chat.html" style="color: inherit; text-decoration: none;">
+      Prompt-Chat
+    </a>
+  </div>
         <div class="menu-item" data-section="create">Neuer Prompt speichern</div>
 
         <div class="menu-label" style="margin-top: 8px;">KI-Modelle</div>
         <div class="menu-item" data-ai="all">Alle anzeigen</div>
         <div class="menu-item" data-ai="ChatGPT">ChatGPT <span class="ai-badge" id="countChatGPT">0</span></div>
-        <div class="menu-item" data-ai="Claude.AI">Claude.AI <span class="ai-badge" id="countClaudeAI">0</span></div>
+        <div class="menu-item" data-ai="Claude.AI">Claude <span class="ai-badge" id="countClaudeAI">0</span></div>
         <div class="menu-item" data-ai="DeepSeek">DeepSeek <span class="ai-badge" id="countDeepSeek">0</span></div>
         <div class="menu-item" data-ai="Perplexity">Perplexity <span class="ai-badge" id="countPerplexity">0</span></div>
         <div class="menu-item" data-ai="Gemini">Gemini <span class="ai-badge" id="countGemini">0</span></div>
@@ -40,7 +45,7 @@
             <select id="promptAI" required>
               <option value="">Bitte auswählen</option>
               <option value="ChatGPT">ChatGPT</option>
-              <option value="Claude.AI">Claude.AI</option>
+              <option value="Claude.AI">Claude</option>
               <option value="DeepSeek">DeepSeek</option>
               <option value="Perplexity">Perplexity</option>
               <option value="Gemini">Gemini</option>

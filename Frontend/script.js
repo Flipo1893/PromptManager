@@ -182,3 +182,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateCounts();
 });
+async function generatePrompt() {
+  const topic = document.getElementById("topic").value;
+
+  const response = await fetch("http://127.0.0.1:5000/api/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ topic })
+  });
+
+  const data = await response.json();
+
+  if (data.generatedPrompt) {
+    document.getElementById("output").innerText = data.generatedPrompt;
+  } else {
+    document.getElementById("output").innerText = "Fehler: " + (data.error || "Unbekannt");
+  }
+}

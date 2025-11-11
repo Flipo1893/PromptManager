@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prompt-Chat | PromptManager</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* --- CHAT LAYOUT --- */
+    .chat-container {
+      max-width: 1100px;
+      margin: 100px auto;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 40px;
+      height: 75vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 10px;
+      margin-bottom: 20px;
+    }
+
+    .message {
+      padding: 14px 18px;
+      margin: 10px 0;
+      border-radius: 14px;
+      line-height: 1.5;
+      max-width: 80%;
+      word-wrap: break-word;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .message.user {
+      background: #2563eb;
+      color: #fff;
+      align-self: flex-end;
+    }
+
+    .message.bot {
+      background: #334155;
+      color: #e2e8f0;
+      align-self: flex-start;
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 10px;
+    }
+
+    #userInput {
+      flex: 1;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+
+    #sendBtn {
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    #sendBtn:hover {
+      background: #1d4ed8;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="app-title">PromptManager</h1>
+    <div class="hamburger-menu">
+      <button id="hamburgerBtn" class="hamburger-btn">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div id="menuDropdown" class="menu-dropdown">
+        <div class="menu-label">Bereiche</div>
+        <div class="menu-item">
+          <a href="index.html" style="color: inherit; text-decoration: none;">
+            Neuer Prompt speichern
+          </a>
+        </div>
+
+        <div class="menu-item">
+          <a href="chat.html" style="color: inherit; text-decoration: none;">
+            Prompt-Chat
+          </a>
+        </div>
+
+        <div class="menu-label" style="margin-top: 8px;">KI-Modelle</div>
+        <div class="menu-item" data-ai="all">Alle anzeigen</div>
+        <div class="menu-item" data-ai="ChatGPT">ChatGPT <span class="ai-badge" id="countChatGPT">0</span></div>
+        <div class="menu-item" data-ai="Claude.AI">Claude <span class="ai-badge" id="countClaudeAI">0</span></div>
+        <div class="menu-item" data-ai="DeepSeek">DeepSeek <span class="ai-badge" id="countDeepSeek">0</span></div>
+        <div class="menu-item" data-ai="Perplexity">Perplexity <span class="ai-badge" id="countPerplexity">0</span></div>
+        <div class="menu-item" data-ai="Gemini">Gemini <span class="ai-badge" id="countGemini">0</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="chat-container">
+      <div id="chatMessages" class="chat-messages"></div>
+      <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Schreib etwas..." />
+        <button id="sendBtn">Senden</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // === HAMBURGER MENU ===
+    const hamburgerBtn = document.getElementById("hamburgerBtn");
+    const menuDropdown = document.getElementById("menuDropdown");
+    hamburgerBtn.addEventListener("click", () => {
+      hamburgerBtn.classList.toggle("active");
+      menuDropdown.classList.toggle("active");
+    });
+
+    // === CHAT LOGIK ===
+    const chatMessages = document.getElementById("chatMessages");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    function addMessage(text, sender) {
+      const div = document.createElement("div");
+      div.classList.add("message", sender);
+      div.innerText = text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    sendBtn.addEventListener("click", async () => {
+      const text = userInput.value.trim();
+      if (!text) return;
+      addMessage(text, "user");
+      userInput.value = "";
+
+      addMessage("⏳ Generiere Antwort...", "bot");
+
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: text }),
+        });
+
+        const data = await response.json();
+        document.querySelectorAll(".bot").forEach(msg => {
+          if (msg.innerText === "Generiere Antwort...") msg.remove();
+        });
+
+        addMessage(data.reply || "Keine Antwort erhalten.", "bot");
+      } catch (err) {
+        addMessage("Fehler: Verbindung fehlgeschlagen.", "bot");
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
