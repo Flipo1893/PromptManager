@@ -106,11 +106,13 @@ export default function LoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
               />
 
+
               <input
                 type="password"
                 placeholder="PASSWORD"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                
               />
 
               <button className="opacity" type="submit">

@@ -36,7 +36,7 @@ export default function ChatPage() {
     } catch (error) {
       setMessages((prev) => [
         ...prev,
-        { sender: "ai", text: "❌ Fehler bei der Anfrage. Bitte versuche es erneut." },
+        { sender: "ai", text: "Fehler bei der Anfrage. Bitte versuche es erneut." },
       ]);
     }
   }
