@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // === Update Counts ===
   function updateCounts() {
-    ["ChatGPT", "Claude.AI", "DeepSeek", "Perplexity", "Gemini"].forEach(ai => {
+    ["ChatGPT", "Claude", "DeepSeek", "Perplexity", "Gemini"].forEach(ai => {
       const el = document.getElementById(`count${ai.replace(".", "")}`);
       if (el) el.textContent = manager.count(ai);
     });

@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuDropdown = document.getElementById("menuDropdown");
 
   if (!hamburgerBtn || !menuDropdown) {
-    console.warn("⚠️ Menü oder Button nicht gefunden");
+    console.warn("Menü oder Button nicht gefunden");
     return;
   }
 
