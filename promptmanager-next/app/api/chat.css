@@ -300,3 +300,10 @@ header {
   width: 100%;
   transition: color 0.2s ease;
 }
+.app-title {
+  cursor: pointer;
+}
+
+.app-title:hover {
+  opacity: 0.8;
+}

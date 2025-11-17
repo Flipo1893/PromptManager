@@ -52,7 +52,9 @@ export default function ChatPage() {
       {/* HEADER + MENU                   */}
       {/* =============================== */}
         <header>
-        <h1 className="app-title">PromptManager</h1>
+<Link href="/" className="app-title" style={{ textDecoration: "none", color: "white" }}>
+  PromptManager
+</Link>
 
         <div className="hamburger-menu">
           <button
@@ -80,13 +82,26 @@ export default function ChatPage() {
   }}>
     Prompt-Chat
   </div>
-    {/* Login */}
-              <div className="menu-item" onClick={() => {
-                window.location.href = "/login";
-                setMenuOpen(false);
-              }}>
-                Login
-              </div>
+   <div
+  className="menu-item menu-login-item"
+  onClick={() => {
+    window.location.href = "/login";
+    setMenuOpen(false);
+  }}
+>
+  <span>Login</span>
+
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+    className="icon-user"
+  >
+    <path d="M8 8a3 3 0 1 0-3-3 3 3 0 0 0 3 3zm4.5 8a.5.5 0 0 0 .5-.5A4.5 4.5 0 0 0 8.5 11h-1A4.5 4.5 0 0 0 3 15.5a.5.5 0 0 0 .5.5z" />
+  </svg>
+</div>
    {/* KI-Modelle */}
   <div className="menu-label" style={{ marginTop: 8 }}>KI-Modelle</div>
 

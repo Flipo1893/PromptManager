@@ -267,3 +267,10 @@ form button:hover {
     padding: 1.5rem;
   }
 }
+.app-title {
+  cursor: pointer;
+}
+
+.app-title:hover {
+  opacity: 0.8;
+}

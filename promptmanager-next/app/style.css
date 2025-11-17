@@ -380,3 +380,10 @@ textarea {
   padding: 18px;
   border-radius: 10px;
 }
+.app-title {
+  cursor: pointer;
+}
+
+.app-title:hover {
+  opacity: 0.8;
+}
