@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import "./login.css"; // gleiche Styles wie Login-Seite
+import "./login.css";
 
 export default function ForgotPasswordPage() {
   const [menuOpen, setMenuOpen] = useState(false);

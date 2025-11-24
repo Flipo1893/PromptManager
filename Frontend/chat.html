@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prompt-Chat | PromptManager</title>
+  <link rel="stylesheet" href="chat.css" />
+</head>
+<body>
+  <header>
+    <h1 class="app-title">PromptManager</h1>
+    <div class="hamburger-menu">
+      <button id="hamburgerBtn" class="hamburger-btn">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div id="menuDropdown" class="menu-dropdown">
+        <div class="menu-label">Bereiche</div>
+        <div class="menu-item">
+          <a href="index.html" class="menu-link">Neuer Prompt speichern</a>
+        </div>
+        <div class="menu-item">
+          <a href="chat.html" class="menu-link">Prompt-Chat</a>
+        </div>
+       <div class="menu-label" style="margin-top: 8px;">KI-Modelle</div>
+
+<div class="menu-item" data-ai="all">Alle anzeigen</div>
+<div class="menu-item" data-ai="ChatGPT">
+  ChatGPT <span class="ai-badge" id="countChatGPT">0</span>
+</div>
+<div class="menu-item" data-ai="Claude.AI">
+  Claude <span class="ai-badge" id="countClaudeAI">0</span>
+</div>
+<div class="menu-item" data-ai="DeepSeek">
+  DeepSeek <span class="ai-badge" id="countDeepSeek">0</span>
+</div>
+<div class="menu-item" data-ai="Perplexity">
+  Perplexity <span class="ai-badge" id="countPerplexity">0</span>
+</div>
+<div class="menu-item" data-ai="Gemini">
+  Gemini <span class="ai-badge" id="countGemini">0</span>
+</div>
+
+<div class="menu-item" style="margin-top: 6px;">
+  <a href="login.html" class="menu-link">Login</a>
+</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="chat-container">
+      <div class="welcome-message">
+        👋 <span>Hallo!</span><br>
+        Welchen Prompt darf ich dir heute erstellen?
+      </div>
+
+      <div id="chatMessages" class="chat-messages"></div>
+
+      <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Schreib etwas..." />
+        <button id="sendBtn">Senden</button>
+      </div>
+
+      <p class="hint-text">
+        💡 Tipp: Du kannst mich z. B. fragen „Erstelle mir einen Prompt für einen Blogartikel über KI in Schulen.“
+      </p>
+    </div>
+  </main>
+
+  <script src="chat.js" defer></script>
+</body>
+</html>

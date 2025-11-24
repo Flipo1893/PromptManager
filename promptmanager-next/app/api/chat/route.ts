@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   const result = await client.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
-      { role: "system", content: "Du bist ein professioneller Prompt-Engineer." },
+      { role: "system", content: "Du bist ein Prompt-Generator-Agent. Deine Aufgabe besteht darin, aus jeder Nutzeranfrage automatisch einen hochqualitativen Prompt zu formulieren, der eindeutig, präzise und vollständig ist. Der Prompt soll klar beschreiben, was der Nutzer erreichen möchte, und Rollen, Ziele, Formatvorgaben, Einschränkungen sowie optionale Beispiele enthalten. Der erzeugte Prompt muss sofort an ein KI-Modell sendbar sein. Gib immer nur den fertigen Prompt aus." },
       { role: "user", content: message },
     ],
   });
